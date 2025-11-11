@@ -32,9 +32,3 @@ Add, edit, and organize grocery items with ease — and never forget what to buy
 **Database:** LocalStorage / SQLite / Firebase (depending on setup)  
 
 ---
-
-## Installation & Setup
-
-1. Clone this repository:
-   ```bash
-   git clone https://github.com/yourusername/grocery-list-app.git
