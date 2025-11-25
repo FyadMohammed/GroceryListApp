@@ -1,0 +1,23 @@
+import { Stack } from "expo-router";
+
+export default function AuthLayout() {
+    return (
+        //Stack navigator for authentication screens
+        //includes Login and Register screens
+        //headerShown: false to hide default header
+        <Stack>
+            <Stack.Screen
+                name="login"
+                options={{
+                    title: 'Login',
+                    headerShown: false,
+                }} />
+            <Stack.Screen
+                name="register"
+                options={{
+                    title: 'Register',
+                    headerShown: false,
+                }} />
+        </Stack>
+    );
+};
