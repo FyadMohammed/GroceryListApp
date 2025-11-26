@@ -13,26 +13,30 @@ export default function LoginScreen() {
     const { login } = useAuth();
     
     //Handler function for login button press
-    const handleLogin = () => {
+    const handleLogin = async () => {
       if(!email) {
-        Alert.alert('Please enter  your email.');
+        Alert.alert('Error', 'Please enter your email.');
         return;
       }
       if(!password) {
-        Alert.alert('Please enter your password.');
+        Alert.alert('Error', 'Please enter your password.');
         return;
       }
 
-      //Call login function from AuthContext
-      login(email);
-      
-      //Clear input fields after login attempt
-      setEmail('');
-      setPassword('');
-
-      console.log('Email:', email);  
-      console.log('Password:', password);
-      alert('Login attempt with Email: ' + email);
+      try {
+        //Call login function from AuthContext with both email and password
+        //This calls Firebase signInWithEmailAndPassword
+        await login(email, password);
+        
+        //Clear input fields after successful login
+        setEmail('');
+        setPassword('');
+      } catch (error: any) {
+        //Handle Firebase authentication errors
+        //error.code contains the error type (e.g., 'auth/user-not-found', 'auth/wrong-password')
+        const errorMessage = error.message || 'Login failed. Please try again.';
+        Alert.alert('Login Error', errorMessage);
+      }
     }; 
     
     return (

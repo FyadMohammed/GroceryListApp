@@ -70,17 +70,18 @@ export default function HomeScreen() {
     };
 
     //Logout handler function
-    const handleLogout =() => {
-        //Call logout function from AuthContext
-        logout();
+    const handleLogout = async () => {
+        try {
+            //Call logout function from AuthContext
+            //This signs out the user from Firebase
+            await logout();
 
-        //Navigation happens automatically when logged out
-        //But we can also explicitly navigate if needed
-        //router.replace('/path/to/LoginScreen'); pushses to login screen
-        router.replace('../login');
-
-        //push() - add a new screen to stack. User can go back
-        //replace() - replace current screen. User cannot go back
+            //Navigation happens automatically when logged out via onAuthStateChanged listener
+            //When logout() is called, Firebase clears user and onAuthStateChanged fires
+            //This updates our AuthContext state, which triggers root layout to show login screen
+        } catch (error) {
+            Alert.alert('Error', 'Failed to logout. Please try again.');
+        }
     };
 
     //Render each item in the FlatList

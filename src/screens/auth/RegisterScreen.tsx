@@ -21,48 +21,59 @@ export default function RegisterScreen() {
 
     // Get navigation router and auth context
     const router = useRouter();
-    const { login } = useAuth();
+    const { register } = useAuth();
 
     
-    const handleRegister = () => {
-        // Registration Logic Here
+    const handleRegister = async () => {
+        // Validation: Check if passwords match
         if(password !== confirmPassword) {
-            Alert.alert('Passwords do not match, please try again.');
+            Alert.alert('Error', 'Passwords do not match, please try again.');
             return;
         }
+        
+        // Validation: Check password length
         if(password.length < 6) {
-            Alert.alert('Password must be at least 6 characters long.');
+            Alert.alert('Error', 'Password must be at least 6 characters long.');
             return;
         }
+        
+        // Validation: Check all fields are filled
         if(!email) {
-            Alert.alert('Please enter your email.');
+            Alert.alert('Error', 'Please enter your email.');
             return;
         }
         if(!name) {
-            Alert.alert('Please enter your name.');
+            Alert.alert('Error', 'Please enter your name.');
             return;
         }
         if(!password) {
-            Alert.alert('Please enter your password.');
+            Alert.alert('Error', 'Please enter your password.');
             return;
         }
         if(!confirmPassword) {
-            Alert.alert('Please confirm your password.');
+            Alert.alert('Error', 'Please confirm your password.');
             return;
         }
-        console.log('Name: ', name);
-        console.log('Email:', email);  
-        //console.log('Password:', password);
-        alert('Login attempt with Email: ' + email);
         
-        // Call login function from AuthContext
-        login(email);
-        
-        // Clear input fields after registration
-        setName('');
-        setEmail('');
-        setPassword('');
-        setConfirmPassword('');
+        try {
+            // Call register function from AuthContext with email and password
+            // This calls Firebase createUserWithEmailAndPassword
+            await register(email, password);
+            
+            // Clear input fields after successful registration
+            setName('');
+            setEmail('');
+            setPassword('');
+            setConfirmPassword('');
+            
+            // Navigate back to login screen after successful registration
+            Alert.alert('Success', 'Account created! You are now logged in.');
+        } catch (error: any) {
+            // Handle Firebase authentication errors
+            // error.code contains the error type (e.g., 'auth/email-already-in-use')
+            const errorMessage = error.message || 'Registration failed. Please try again.';
+            Alert.alert('Registration Error', errorMessage);
+        }
     }
 
     return (
