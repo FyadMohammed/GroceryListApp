@@ -13,5 +13,7 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// Initialize Firebase Authentication and get a reference to the service
+// Initialize Firebase Authentication
+// For React Native/Expo apps, getAuth() uses native AsyncStorage automatically
+// This persists auth state between app sessions
 export const auth = getAuth(app);
