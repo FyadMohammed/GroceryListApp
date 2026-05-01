@@ -3,6 +3,7 @@ import { AuthProvider, useAuth } from "../src/context/AuthContext";
 
 function RootLayout() {
     const { isLoggedIn } = useAuth();
+    console.log('RootLayout rendering, isLoggedIn:', isLoggedIn);
     return (
         //gets the user to the auth stack if not logged in, else to the home stack
         <Stack>

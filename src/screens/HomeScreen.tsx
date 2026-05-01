@@ -75,7 +75,7 @@ export default function HomeScreen() {
             //Call logout function from AuthContext
             //This signs out the user from Firebase
             await logout();
-
+            router.replace('/(auth)/login');
             //Navigation happens automatically when logged out via onAuthStateChanged listener
             //When logout() is called, Firebase clears user and onAuthStateChanged fires
             //This updates our AuthContext state, which triggers root layout to show login screen
@@ -89,7 +89,7 @@ export default function HomeScreen() {
         return (
             <View style={styles.itemContainer}>
                 <Pressable
-                style={styles.itemContainer}
+                style={styles.checkbox}
                 onPress={() => handleTogglePurchased(item.id)}>
                     <Text style={styles.checkboxText}>
                         {item.purchased ? '✓' : ''}
@@ -117,18 +117,20 @@ export default function HomeScreen() {
     return(
         <View style={styles.container}>
             { /* Header */}
-            <View>
-                <Text style={styles.headerTitle}> My Grocery</Text>
-                <Text style={styles.headerSubtitle}> {groceryItems.filter((item) => !item.purchased).length } </Text>
+            <View style={styles.header}>
+                <View style={styles.headerTextContainer}>
+                    <Text style={styles.headerTitle}>My Grocery</Text>
+                    <Text style={styles.headerSubtitle}>
+                        {groceryItems.filter((item) => !item.purchased).length} items left
+                    </Text>
+                </View>
+                <Pressable style={styles.logoutButton} onPress={handleLogout}>
+                    <Text style={styles.logoutButtonText}>Logout</Text>
+                </Pressable>
             </View>
 
-            <Pressable style={styles.logoutButton} onPress={handleLogout}>
-                <Text style={styles.logoutButtonText}>Logout</Text>
-
-            </Pressable>
-
             { /* Input Section */ }
-            <View>
+            <View style={styles.inputSection}>
                 <TextInput
                 style={styles.input}
                 placeholder="Add new item"
@@ -137,7 +139,7 @@ export default function HomeScreen() {
                 onSubmitEditing={handleAddItem}
                 />
                 <Pressable style={styles.addButton} onPress={handleAddItem}>
-                    <Text style={styles.addButton}> Add </Text>
+                    <Text style={styles.addButtonText}>Add</Text>
                 </Pressable>
             </View>
 
@@ -163,11 +165,13 @@ const styles = StyleSheet.create({
     header : {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'space-between',
         backgroundColor: '#007AFF',
         paddingVertical: 20,
         paddingHorizontal: 15,
-        
+    },
+    headerTextContainer: {
+        flex: 1,
     },
     logoutButton: {
         backgroundColor: '#FF3B30',

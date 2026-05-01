@@ -33,13 +33,16 @@ export function AuthProvider({ children}: { children: React.ReactNode}) {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (user) {
                 //User is logged in, update state
+                console.log('Setting is logged in to true for this user:', user.email);
                 setIsLoggedIn(true);
                 setUserEmail(user.email || null);
             } else {
                 //User is logged out, clear state
+                console.log('Setting is logged in to false for this user');
                 setIsLoggedIn(false);
                 setUserEmail(null);
             }
+            console.log('onAuthStateChanged fired, user is:', user);
         });
 
         //Cleanup subscription on unmount
