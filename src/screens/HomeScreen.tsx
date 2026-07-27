@@ -79,7 +79,7 @@ export default function HomeScreen() {
             //Navigation happens automatically when logged out via onAuthStateChanged listener
             //When logout() is called, Firebase clears user and onAuthStateChanged fires
             //This updates our AuthContext state, which triggers root layout to show login screen
-        } catch (error) {
+        } catch {
             Alert.alert('Error', 'Failed to logout. Please try again.');
         }
     };
